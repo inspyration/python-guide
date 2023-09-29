@@ -1,10 +1,14 @@
+
+####################
 Network Applications
-====================
+####################
+
+.. image:: /_static/photos/34364815780_bea6614025_k_d.jpg
 
 
-
+****
 HTTP
-::::
+****
 
 The Hypertext Transfer Protocol (HTTP) is an application protocol for
 distributed, collaborative, hypermedia information systems. HTTP is the
@@ -24,13 +28,14 @@ your URLs, or to form-encode your POST data. Keep-alive and HTTP connection
 pooling are 100% automatic, powered by urllib3, which is embedded within
 Requests.
 
-- `Documentation <http://docs.python-requests.org/en/latest/index.html>`_
-- `PyPi <http://pypi.python.org/pypi/requests>`_
+- `Documentation <https://requests.readthedocs.io/en/latest/>`_
+- `PyPi <http://pypi.org/project/requests>`_
 - `GitHub <https://github.com/kennethreitz/requests>`_
 
 
+*******************
 Distributed Systems
-::::::::::::::::::::
+*******************
 
 
 ZeroMQ
@@ -45,5 +50,11 @@ library is designed to have a familiar socket-style API.
 RabbitMQ
 --------
 
-.. todo:: Write about RabbitMQ
+RabbitMQ is an open source message broker software that implements the Advanced
+Message Queuing Protocol (AMQP).  The RabbitMQ server is written in the Erlang
+programming language and is built on the Open Telecom Platform framework for
+clustering and failover. Client libraries to interface with the broker are
+available for all major programming languages.
 
+- `Homepage <http://www.rabbitmq.com/>`_
+- `GitHub Organization <https://github.com/rabbitmq?page=1>`_

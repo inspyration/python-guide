@@ -1,34 +1,39 @@
+
+
+#################
 Testing Your Code
-=================
+#################
+
+.. image:: /_static/photos/34435687940_8f73fc1fa6_k_d.jpg
 
 Testing your code is very important.
 
-Getting used to writing the testing code and the running code in parallel is
-now considered a good habit. Used wisely, this method helps you define more
-precisely your code's intent and have a more decoupled architecture.
+Getting used to writing testing code and running this code in parallel is now
+considered a good habit. Used wisely, this method helps to define your
+code's intent more precisely and have a more decoupled architecture.
 
 Some general rules of testing:
 
 - A testing unit should focus on one tiny bit of functionality and prove it
   correct.
 
-- Each test unit must be fully independent. Each of them must be able to run
-  alone, and also within the test suite, regardless of the order they are
+- Each test unit must be fully independent. Each test must be able to run
+  alone, and also within the test suite, regardless of the order that they are
   called. The implication of this rule is that each test must be loaded with
   a fresh dataset and may have to do some cleanup afterwards. This is
   usually handled by :meth:`setUp()` and :meth:`tearDown()` methods.
 
 - Try hard to make tests that run fast. If one single test needs more than a
-  few millisecond to run, development will be slowed down or the tests will
-  not be run as often as desirable. In some cases, tests can't be fast because
-  they need a complex data structure to work on, and this data structure must
-  be loaded every time the test runs. Keep these heavier tests in a separate
-  test suite that is run by some scheduled task, and run all other tests as
-  often as needed.
+  few milliseconds to run, development will be slowed down or the tests will
+  not be run as often as is desirable. In some cases, tests can't be fast
+  because they need a complex data structure to work on, and this data structure
+  must be loaded every time the test runs. Keep these heavier tests in a
+  separate test suite that is run by some scheduled task, and run all other
+  tests as often as needed.
 
 - Learn your tools and learn how to run a single test or a test case. Then,
-  when developing a function inside a module, run this function's tests very
-  often, ideally automatically when you save the code.
+  when developing a function inside a module, run this function's tests
+  frequently, ideally automatically when you save the code.
 
 - Always run the full test suite before a coding session, and run it again
   after. This will give you more confidence that you did not break anything
@@ -44,7 +49,7 @@ Some general rules of testing:
 
 - The first step when you are debugging your code is to write a new test
   pinpointing the bug. While it is not always possible to do, those bug
-  catching test are among the most valuable pieces of code in your project.
+  catching tests are among the most valuable pieces of code in your project.
 
 - Use long and descriptive names for testing functions. The style guide here
   is slightly different than that of running code, where short names are
@@ -58,22 +63,25 @@ Some general rules of testing:
   good set of tests, you or other maintainers will rely largely on the
   testing suite to fix the problem or modify a given behavior. Therefore
   the testing code will be read as much as or even more than the running
-  code. A unit test whose purpose is unclear is not very helpful is this
+  code. A unit test whose purpose is unclear is not very helpful in this
   case.
 
 - Another use of the testing code is as an introduction to new developers. When
   someone will have to work on the code base, running and reading the related
-  testing code is often the best they can do. They will or should discover the
-  hot spots, where most difficulties arise, and the corner cases. If they have
-  to add some functionality, the first step should be to add a test and, by this
-  mean, ensure the new functionality is not already a working path that has not
-  been plugged in the interface.
+  testing code is often the best thing that they can do to start. They will
+  or should discover the hot spots, where most difficulties arise, and the
+  corner cases. If they have to add some functionality, the first step should
+  be to add a test to ensure that the new functionality is not already a
+  working path that has not been plugged into the interface.
 
+
+
+**********
 The Basics
-::::::::::
+**********
 
 
-Unittest
+unittest
 --------
 
 :mod:`unittest` is the batteries-included test module in the Python standard
@@ -116,7 +124,7 @@ A simple doctest in a function:
 .. code-block:: python
 
     def square(x):
-        """Squares x.
+        """Return the square of x.
 
         >>> square(2)
         4
@@ -134,8 +142,10 @@ When running this module from the command line as in ``python module.py``, the
 doctests will run and complain if anything is not behaving as described in the
 docstrings.
 
+
+*****
 Tools
-:::::
+*****
 
 
 py.test
@@ -160,7 +170,7 @@ functions:
     def test_answer():
         assert func(3) == 5
 
-and then running the `py.test` command
+and then running the `py.test` command:
 
 .. code-block:: console
 
@@ -185,68 +195,57 @@ and then running the `py.test` command
 is far less work than would be required for the equivalent functionality with
 the unittest module!
 
-    `py.test <http://pytest.org/latest/>`_
+    `py.test <https://docs.pytest.org/en/latest/>`_
 
 
-Nose
-----
+Hypothesis
+----------
 
-nose extends unittest to make testing easier.
-
+Hypothesis is a library which lets you write tests that are parameterized by
+a source of examples.  It then generates simple and comprehensible examples
+that make your tests fail, letting you find more bugs with less work.
 
 .. code-block:: console
 
-    $ pip install nose
+    $ pip install hypothesis
 
-nose provides automatic test discovery to save you the hassle of manually
-creating test suites. It also provides numerous plugins for features such as
-xUnit-compatible test output, coverage reporting, and test selection.
+For example, testing lists of floats will try many examples, but report the
+minimal example of each bug (distinguished exception type and location):
 
-    `nose <http://readthedocs.org/docs/nose/en/latest/>`_
+.. code-block:: python
+
+    @given(lists(floats(allow_nan=False, allow_infinity=False), min_size=1))
+    def test_mean(xs):
+        mean = sum(xs) / len(xs)
+        assert min(xs) <= mean(xs) <= max(xs)
+
+.. code-block:: none
+
+    Falsifying example: test_mean(
+        xs=[1.7976321109618856e+308, 6.102390043022755e+303]
+    )
+
+Hypothesis is practical as well as very powerful and will often find bugs
+that escaped all other forms of testing.  It integrates well with py.test,
+and has a strong focus on usability in both simple and advanced scenarios.
+
+    `hypothesis <https://hypothesis.readthedocs.io/en/latest/>`_
 
 
 tox
 ---
 
 tox is a tool for automating test environment management and testing against
-multiple interpreter configurations
+multiple interpreter configurations.
 
 .. code-block:: console
 
     $ pip install tox
 
 tox allows you to configure complicated multi-parameter test matrices via a
-simple ini-style configuration file.
+simple INI-style configuration file.
 
-    `tox <http://testrun.org/tox/latest/>`_
-
-Unittest2
----------
-
-unittest2 is a backport of Python 2.7's unittest module which has an improved
-API and better assertions over the one available in previous versions of Python.
-
-If you're using Python 2.6 or below, you can install it with pip
-
-.. code-block:: console
-
-    $ pip install unittest2
-
-You may want to import the module under the name unittest to make porting code
-to newer versions of the module easier in the future
-
-.. code-block:: python
-
-    import unittest2 as unittest
-
-    class MyTest(unittest.TestCase):
-        ...
-
-This way if you ever switch to a newer python version and no longer need the
-unittest2 module, you can simply change the import in your test module without
-the need to change any other code.
-
-    `unittest2 <http://pypi.python.org/pypi/unittest2>`_
+    `tox <https://tox.readthedocs.io/en/latest/>`_
 
 
 mock
@@ -295,7 +294,6 @@ always returns the same result (but only for the duration of the test).
         # get_search_results runs a search and iterates over the result
         self.assertEqual(len(myapp.get_search_results(q="fish")), 3)
 
-Mock has many other ways you can configure it and control its behavior.
+Mock has many other ways with which you can configure and control its behaviour.
 
     `mock <http://www.voidspace.org.uk/python/mock/>`_
-

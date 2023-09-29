@@ -1,12 +1,19 @@
 .. _install-windows:
 
-Installing Python on Windows
-============================
 
-First, download the `latest version <http://python.org/ftp/python/2.7.6/python-2.7.6.msi>`_
-of Python 2.7 from the official Website. If you want to be sure you are installing a fully
-up-to-date version then use the "Windows Installer" link from the home page of the
-`Python.org web site <http://python.org>`_ .
+##############################
+Installing Python 2 on Windows
+##############################
+
+.. image:: /_static/photos/34435688560_4cc2a7bcbb_k_d.jpg
+
+.. note::
+    Check out our :ref:`guide for installing Python 3 on Windows<install3-windows>`.
+
+First, download the `latest version <https://www.python.org/ftp/python/2.7.15/python-2.7.15.msi>`_
+of Python 2.7 from the official website. If you want to be sure you are installing a fully
+up-to-date version, click the Downloads > Windows link from the home page of the
+`Python.org web site <https://python.org>`_ .
 
 The Windows version is provided as an MSI package. To install it manually, just
 double-click the file. The MSI package format allows Windows administrators to
@@ -25,15 +32,17 @@ tedious, so add the directories for your default Python version to the :envvar:`
 Assuming that your Python installation is in :file:`C:\\Python27\\`, add this to your
 :envvar:`PATH`:
 
-.. code-block:: console
+.. code-block:: doscon
 
     C:\Python27\;C:\Python27\Scripts\
 
 You can do this easily by running the following in ``powershell``:
 
-.. code-block:: console
+.. code-block:: powershell
 
     [Environment]::SetEnvironmentVariable("Path", "$env:Path;C:\Python27\;C:\Python27\Scripts\", "User")
+
+This is also an option during the installation process.
 
 The second (:file:`Scripts`) directory receives command files when certain
 packages are installed, so it is a very useful addition.
@@ -43,71 +52,45 @@ described in the next section before you start building Python applications for
 real-world use. In particular, you should always install Setuptools, as it
 makes it much easier for you to use other third-party Python libraries.
 
+
+****************
 Setuptools + Pip
-----------------
+****************
 
-The most crucial third-party Python software of all is Setuptools, which
-extends the packaging and installation facilities provided by the distutils in
-the standard library. Once you add Setuptools to your Python system you can
-download and install any compliant Python software product with a single
-command. It also enables you to add this network installation capability to
-your own Python software with very little work.
+The two most crucial third-party Python packages are `setuptools <https://pypi.org/project/setuptools>`_ and `pip <https://pip.pypa.io/en/stable/>`_.
 
-To obtain the latest version of Setuptools for Windows, run the python script
-available here: `ez_setup.py <https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py>`_
+Once installed, you can download, install and uninstall any compliant Python software
+product with a single command. It also enables you to add this network installation
+capability to your own Python software with very little work.
 
+Python 2.7.9 and later (on the python2 series), and Python 3.4 and later include
+pip by default.
 
-You'll now have a new command available to you: **easy_install**. It is
-considered by many to be deprecated, so we will install its replacement:
-**pip**. Pip allows for uninstallation of packages, and is actively maintained,
-unlike easy_install.
+To see if pip is installed, open a command prompt and run
 
-To install pip, run the python script available here:
-`get-pip.py <https://raw.github.com/pypa/pip/master/contrib/get-pip.py>`_
+.. code-block:: doscon
+
+    command -v pip
+
+To install pip, `follow the official pip installation guide <https://pip.pypa.io/en/latest/installing/>`_ - this will automatically install the latest version of setuptools.
 
 
-Virtualenv
-----------
+********************
+Virtual Environments
+********************
 
-After Setuptools & Pip, the next development tool that you should install is
-`virtualenv <http://pypi.python.org/pypi/virtualenv/>`_. Use pip
+A Virtual Environment is a tool to keep the dependencies required by different projects
+in separate places, by creating virtual Python environments for them. It solves the
+"Project X depends on version 1.x but, Project Y needs 4.x" dilemma, and keeps
+your global site-packages directory clean and manageable.
 
-.. code-block:: console
+For example, you can work on a project which requires Django 1.10 while also
+maintaining a project which requires Django 1.8.
 
-    > pip install virtualenv
-
-The virtualenv kit provides the ability to create virtual Python environments
-that do not interfere with either each other, or the main Python installation.
-If you install virtualenv before you begin coding then you can get into the
-habit of using it to create completely clean Python environments for each
-project. This is particularly important for Web development, where each
-framework and application will have many dependencies.
-
-
-To set up a new Python environment, change the working directory to wherever
-you want to store the environment, and run the virtualenv utility in your
-project's directory
-
-.. code-block:: console
-
-    > virtualenv venv
-
-To use an environment, run the :file:`activate.bat` batch file in the :file:`Scripts`
-subdirectory of that environment. Your command prompt will change to show the
-active environment. Once you have finished working in the current virtual
-environment, run the :file:`deactivate.bat` batch file to restore your settings to
-normal.
-
-Each new environment automatically includes a copy of ``pip`` in the
-:file:`Scripts` subdirectory, so that you can setup the third-party libraries and
-tools that you want to use in that environment. Put your own code within a
-subdirectory of the environment, however you wish. When you no longer need a
-particular environment, simply copy your code out of it, and then delete the
-main directory for the environment.
-
+To start using this and see more information: :ref:`Virtual Environments <virtualenvironments-ref>` docs.
 
 
 --------------------------------
 
-This page is a remixed version of `another guide <http://www.stuartellis.eu/articles/python-development-windows/>`_,
+This page is a remixed version of `another guide <https://www.stuartellis.name/articles/python-development-windows/>`_,
 which is available under the same license.
